@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kingsukh Guest House</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+      background: whitesmoke;
+      color: #333;
+      
+    }
+    header, footer {
+      background:#333;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    header,footer{
+      background-image: url(baranti.webp);
+    }
+    nav {
+      background:gray;
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      color:white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    section {
+      padding: 40px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    .button {
+      display: inline-block;
+      background: #007BFF;
+      color: white;
+      padding: 10px 20px;
+      margin-top: 15px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .room {
+      border: 1px solid #ddd;
+      padding: 20px;
+      margin-bottom: 20px;
+      background: white;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .gallery img {
+      width: 200px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+    form input, form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+    }
+    form button {
+      padding: 10px 20px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    .centerImage{
+      display: block;
+      margin-left: auto;
+      margin-right:auto;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1><b><i>Kingsukh Guest House</i></b></h1>
+  <p>Simple - Unique - Friendly</p>
+  
+</header>
+
+<nav>
+  <a href="#home">Home</a>
+  <a href="#about">About</a>
+  <a href="#services">Services</a>
+  <a href="#rooms">Rooms</a>
+  <a href="#gallery">Gallery</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<section id="home">
+  <h2>Make Yourself At Home In Our Guest House</h2>
+  <a href="#contact" class="button">BOOK NOW</a>
+</section>
+
+ <img src="out.jpg" alt="room Image" class="centerImage" width="450" height="500">
+<section id="about">
+  <h2>About Us</h2>
+  <p>
+    <b>Embark on a tranquil journey at Kingsukh Guest House, enveloped by the scenic allure of Biharinath Hill, Baranti Hill, Susunia Hill, Joychandi Hill, Garhpanchkot, Baranti Dam, Maithon Dam, and Panchat Dam.</b>
+  </p>
+  <p>
+    <b>Revel in comfort, relish delightful meals, and unwind in our garden oasis. Explore the hidden gems of Purulia and create lasting memories with heartfelt hospitality.</b>
+  
+  </p>
+    
+</section>
+
+<section id="rooms">
+  <h2>Our Living Room</h2>
+  <p>The Most Memorable Rest Time Starts Here.</p>
+  
+  
+
+  <div class="room">
+    <h3>Cozy Haven Room</h3>
+    <p>A snug retreat designed for intimate relaxation.</p>
+    <img src="Cozy Haven Room.jfif" alt="room Image">
+
+    <p><strong>Starting from Rs. 1000/night</strong></p>
+    <a href="#contact" class="button">BOOK NOW</a>
+  </div>
+
+  <div class="room">
+    <h3>Spacious Serenity Suite</h3>
+    <p>Luxury and ample space where tranquility meets elegance.</p>
+    <p><strong>Starting from Rs. 1500/night</strong></p>
+    <a href="#contact" class="button">BOOK NOW</a>
+  </div>
+</section>
+
+<section id="services">
+  <h2>Our Services</h2>
+  <ul>
+    <li>High Class Security</li>
+    <li>24 Hours Room Service</li>
+    <li>Restaurant</li>
+    <li>Tourist Guide Support</li>
+  </ul>
+  <img src="service.jpg" alt="Gallery Image 3" width="750" height="500">
+
+
+  <p><strong>100+ Bookings Completed | 150+ Happy Customers</strong></p>
+</section>
+
+<section id="Gallery">
+  <h2>Gallery</h2>
+  <div class="gallery">
+    <img src="small.jpg" alt="Gallery Image 1">
+    <img src="palash.webp" alt="Gallery Image 2">
+    <img src="baranti.webp" alt="Gallery Image 3">
+    <img src="large.jpg" alt="Gallery Image 3">
+    <img src="ayodhya.webp" alt="Gallery Image 3">
+    <img src="flower.jpg" alt="Gallery Image 3">
+    <img src="download (1).jfif" alt="Gallery Image 3">
+
+
+    <!-- Add more as needed -->
+  </div>
+</section>
+
+<section id="contact">
+  <h2>Contact Us</h2>
+  <p><strong>Address:</strong> Beside Barshal Water Tank, Manpur, Barhanti, West Bengal 723156</p>
+  <p><strong>Email:</strong> <a href="mailto:kkghosh0099@gmail.com">kkghosh0099@gmail.com</a></p>
+  <p><strong>Phone:</strong> <a href="tel:+919007062180">+91 9007062180</a></p>
+  
+ <p><strong>Instagram:</strong><a href="https://www.instagram.com/kingsukhguesthouse/">https://www.instagram.com/kingsukhguesthouse/</a></p>
+ 
+
+  
+
+  <h3>Send a Message</h3>
+  <form>
+    <input type="text" placeholder="First Name" required>
+    <input type="text" placeholder="Last Name">
+    <input type="email" placeholder="Email Address" required>
+    <input type="tel" placeholder="Mobile Number" required>
+    <textarea rows="5" placeholder="Write your message here..." required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+</section>
+
+<footer>
+  <p>&copy; 2025 Kingsukh Guest House. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
