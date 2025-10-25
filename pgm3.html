@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎲 Ludo Game</title>
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f0f4f8;
+  }
+
+  h1 {
+    color: #ff4500;
+  }
+
+  #board {
+    display: grid;
+    grid-template-columns: repeat(15, 30px);
+    grid-template-rows: repeat(15, 30px);
+    gap: 1px;
+    margin-top: 20px;
+  }
+
+  .cell {
+    width: 30px;
+    height: 30px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+  }
+
+  .player1 {
+    background-color: #ff0000;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+  }
+
+  .player2 {
+    background-color: #0000ff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+  }
+
+  #diceBtn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #ff4500;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  #diceBtn:hover {
+    background-color: #cc3700;
+  }
+
+  #diceResult, #turn {
+    margin-top: 10px;
+    font-size: 1.2rem;
+  }
+</style>
+</head>
+<body>
+
+<h1>🎲 Ludo Game</h1>
+<div id="board"></div>
+<button id="diceBtn">Roll Dice</button>
+<div id="diceResult">Dice: 0</div>
+<div id="turn">Player 1's Turn</div>
+
+<script>
+const board = document.getElementById('board');
+const diceBtn = document.getElementById('diceBtn');
+const diceResult = document.getElementById('diceResult');
+const turnDisplay = document.getElementById('turn');
+
+const cells = [];
+const totalCells = 15*15;
+
+// Players positions
+let player1Pos = -1;
+let player2Pos = -1;
+let currentPlayer = 1;
+
+// Create board
+for(let i=0; i<totalCells; i++){
+  const cell = document.createElement('div');
+  cell.classList.add('cell');
+  board.appendChild(cell);
+  cells.push(cell);
+}
+
+// Simple linear path (simplified Ludo path)
+const path = [];
+for(let i=0; i<15; i++) path.push(i); // top row
+for(let i=16; i<30; i++) path.push(i); // right column
+for(let i=44; i>29; i--) path.push(i); // bottom row
+for(let i=30; i>15; i--) path.push(i); // left column
+
+function drawPlayers() {
+  // clear board
+  cells.forEach(cell => cell.innerHTML = '');
+  if(player1Pos >= 0) cells[path[player1Pos % path.length]].innerHTML = '<div class="player1"></div>';
+  if(player2Pos >= 0) cells[path[player2Pos % path.length]].innerHTML = '<div class="player2"></div>';
+}
+
+diceBtn.addEventListener('click', () => {
+  const dice = Math.floor(Math.random()*6)+1;
+  diceResult.textContent = 'Dice: ' + dice;
+
+  if(currentPlayer === 1){
+    if(player1Pos === -1 && dice === 6) player1Pos = 0;
+    else if(player1Pos >= 0) player1Pos += dice;
+    currentPlayer = 2;
+    turnDisplay.textContent = "Player 2's Turn";
+  } else {
+    if(player2Pos === -1 && dice === 6) player2Pos = 0;
+    else if(player2Pos >= 0) player2Pos += dice;
+    currentPlayer = 1;
+    turnDisplay.textContent = "Player 1's Turn";
+  }
+
+  drawPlayers();
+
+  // Check win
+  if(player1Pos >= path.length){
+    alert('Player 1 Wins!');
+    resetGame();
+  }
+  if(player2Pos >= path.length){
+    alert('Player 2 Wins!');
+    resetGame();
+  }
+});
+
+function resetGame(){
+  player1Pos = -1;
+  player2Pos = -1;
+  currentPlayer = 1;
+  diceResult.textContent = 'Dice: 0';
+  turnDisplay.textContent = "Player 1's Turn";
+  drawPlayers();
+}
+
+drawPlayers();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💰 Expense Tracker Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background-color: #f4f6f8;
+      color: #333;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      color: #007bff;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 20px;
+    }
+
+    .add-expense, .dashboard {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    .add-expense h2, .dashboard h2 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    input, select, button {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .summary {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .summary div {
+      background-color: #f9fafc;
+      padding: 10px 15px;
+      border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .summary div span {
+      display: block;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #007bff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+
+    td button {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    td button:hover {
+      background-color: darkred;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>💰 Expense Tracker Dashboard</h1>
+    <p>Track your daily expenses and manage your budget easily</p>
+  </header>
+
+  <div class="container">
+    <!-- Add Expense Section -->
+    <div class="add-expense">
+      <h2>Add New Expense</h2>
+      <form id="expense-form">
+        <input type="text" id="title" placeholder="Expense Title" required>
+        <input type="number" id="amount" placeholder="Amount (₹)" required>
+        <select id="category">
+          <option value="Food">🍔 Food</option>
+          <option value="Transport">🚌 Transport</option>
+          <option value="Shopping">🛍️ Shopping</option>
+          <option value="Bills">💡 Bills</option>
+          <option value="Other">📦 Other</option>
+        </select>
+        <button type="submit">Add Expense</button>
+      </form>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div class="dashboard">
+      <h2>Dashboard</h2>
+
+      <div class="summary">
+        <div>
+          <p>Total Expenses</p>
+          <span id="total-expenses">₹0</span>
+        </div>
+        <div>
+          <p>Total Transactions</p>
+          <span id="total-count">0</span>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Amount (₹)</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="expense-list"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const expenseForm = document.getElementById("expense-form");
+    const expenseList = document.getElementById("expense-list");
+    const totalExpenses = document.getElementById("total-expenses");
+    const totalCount = document.getElementById("total-count");
+
+    let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+
+    // Add expense
+    expenseForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const title = document.getElementById("title").value.trim();
+      const amount = parseFloat(document.getElementById("amount").value);
+      const category = document.getElementById("category").value;
+
+      if (title === "" || isNaN(amount) || amount <= 0) return alert("Enter valid details!");
+
+      const expense = {
+        id: Date.now(),
+        title,
+        amount,
+        category,
+        date: new Date().toLocaleDateString()
+      };
+
+      expenses.push(expense);
+      localStorage.setItem("expenses", JSON.stringify(expenses));
+      expenseForm.reset();
+      renderExpenses();
+    });
+
+    // Delete expense
+    function deleteExpense(id) {
+      expenses = expenses.filter(exp => exp.id !== id);
+      localStorage.setItem("expenses", JSON.stringify(expenses));
+      renderExpenses();
+    }
+
+    // Render data
+    function renderExpenses() {
+      expenseList.innerHTML = "";
+      let total = 0;
+
+      expenses.forEach(exp => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${exp.title}</td>
+          <td>${exp.category}</td>
+          <td>₹${exp.amount}</td>
+          <td>${exp.date}</td>
+          <td><button onclick="deleteExpense(${exp.id})">Delete</button></td>
+        `;
+        expenseList.appendChild(row);
+        total += exp.amount;
+      });
+
+      totalExpenses.textContent = `₹${total}`;
+      totalCount.textContent = expenses.length;
+    }
+
+    // Initialize on page load
+    renderExpenses();
+  </script>
+
+</body>
+</html>

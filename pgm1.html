@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🧩 Sudoku Puzzle Game</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      background-color: #f4f6f8;
+    }
+
+    h1 {
+      color: #007bff;
+      margin-bottom: 20px;
+    }
+
+    table {
+      border-collapse: collapse;
+    }
+
+    td {
+      border: 1px solid #999;
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      vertical-align: middle;
+      font-size: 1.2rem;
+    }
+
+    input {
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      font-size: 1.2rem;
+      border: none;
+      outline: none;
+    }
+
+    /* Thicker borders for subgrid separation */
+    td:nth-child(3), td:nth-child(6) {
+      border-right: 2px solid #333;
+    }
+    tr:nth-child(3) td, tr:nth-child(6) td {
+      border-bottom: 2px solid #333;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #message {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🧩 Sudoku Puzzle Game</h1>
+  <table id="sudoku-grid"></table>
+  <button id="check-btn">Check Solution</button>
+  <button id="reset-btn">Reset</button>
+  <div id="message"></div>
+
+  <script>
+    const sudokuGrid = document.getElementById('sudoku-grid');
+    const checkBtn = document.getElementById('check-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const message = document.getElementById('message');
+
+    // Sample Sudoku puzzle (0 = empty)
+    let puzzle = [
+      [5,3,0,0,7,0,0,0,0],
+      [6,0,0,1,9,5,0,0,0],
+      [0,9,8,0,0,0,0,6,0],
+      [8,0,0,0,6,0,0,0,3],
+      [4,0,0,8,0,3,0,0,1],
+      [7,0,0,0,2,0,0,0,6],
+      [0,6,0,0,0,0,2,8,0],
+      [0,0,0,4,1,9,0,0,5],
+      [0,0,0,0,8,0,0,7,9]
+    ];
+
+    // Solution for validation
+    const solution = [
+      [5,3,4,6,7,8,9,1,2],
+      [6,7,2,1,9,5,3,4,8],
+      [1,9,8,3,4,2,5,6,7],
+      [8,5,9,7,6,1,4,2,3],
+      [4,2,6,8,5,3,7,9,1],
+      [7,1,3,9,2,4,8,5,6],
+      [9,6,1,5,3,7,2,8,4],
+      [2,8,7,4,1,9,6,3,5],
+      [3,4,5,2,8,6,1,7,9]
+    ];
+
+    function createBoard() {
+      sudokuGrid.innerHTML = '';
+      for (let i = 0; i < 9; i++) {
+        const row = document.createElement('tr');
+        for (let j = 0; j < 9; j++) {
+          const cell = document.createElement('td');
+          if (puzzle[i][j] !== 0) {
+            cell.textContent = puzzle[i][j];
+          } else {
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.min = 1;
+            input.max = 9;
+            cell.appendChild(input);
+          }
+          row.appendChild(cell);
+        }
+        sudokuGrid.appendChild(row);
+      }
+      message.textContent = '';
+    }
+
+    function checkSolution() {
+      const inputs = sudokuGrid.querySelectorAll('input');
+      let correct = true;
+      let index = 0;
+      for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+          if (puzzle[i][j] === 0) {
+            const val = parseInt(inputs[index].value);
+            if (val !== solution[i][j]) {
+              correct = false;
+              inputs[index].style.backgroundColor = '#f8d7da';
+            } else {
+              inputs[index].style.backgroundColor = '#d4edda';
+            }
+            index++;
+          }
+        }
+      }
+      message.textContent = correct ? '🎉 Congratulations! Puzzle solved correctly!' : '❌ Some numbers are incorrect. Keep trying!';
+    }
+
+    checkBtn.addEventListener('click', checkSolution);
+    resetBtn.addEventListener('click', createBoard);
+
+    createBoard();
+  </script>
+</body>
+</html>
